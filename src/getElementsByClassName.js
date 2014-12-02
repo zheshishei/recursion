@@ -5,9 +5,10 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
+  var index;
   if(this === window) {
 	var html = window.document.children[0];
-	for(var index = 1; index < window.document.children.length; index++) {
+	for(index = 1; index < window.document.children.length; index++) {
 	  if(html.nodeType === 1 && html.nodeName === 'HTML' && typeof html.className !== 'undefined') {
 		break;
 	  }
@@ -15,7 +16,7 @@ var getElementsByClassName = function(className){
 	}
 	
 	html = html.children[0];
-	for(var index = 1; index < html.children.length; index++) {
+	for(index = 1; index < html.children.length; index++) {
 	  if(html.nodeType === 1 && html.nodeName === 'BODY' && typeof html.className !== 'undefined') {
 		break;
 	  }
@@ -27,17 +28,15 @@ var getElementsByClassName = function(className){
   
   var elements = [];
   
-  for(var objClass in this.classList) {
-    if(this.nodeName === 'BODY') console.log("body class:" + objClass + "|"  + this.classList[objClass]);
-    if(new RegExp(" " + className + " ").test(this.classList[objClass])) {
-	  console.log("thisPush:" + this.nodeName + "|" + this.classList[objClass]);
+  for(index = 0; index < this.classList.length; index++) {
+    if(this.classList[index] === className) {
 	  elements.push(this);
 	  break;
 	}
   }
   
-  for(var child in this.children) {
-	var result = getElementsByClassName.call(this.children[child], className);
+  for(index = 0; index < this.children.length; index++) {
+	var result = getElementsByClassName.call(this.children[index], className);
 	for(var elem = 0; elem < result.length; elem++) {
 	  elements.push(result[elem]);
 	}
